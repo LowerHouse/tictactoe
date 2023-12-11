@@ -1,0 +1,25 @@
+*{
+    font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 18px;
+    margin: 0;
+    padding: 0;
+}
+
+:root{
+    /* https://coolors.co/palette/edede9-d6ccc2-f5ebe0-e3d5ca-d5bdaf */
+    --container-bg-color: #d5bdaf;
+    --player-bg-color: #e3d5ca;
+}
+
+.container{
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--container-bg-color);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 15px;
+}
+
+.player{
+    background-color: var(--player-bg-color);
+}
