@@ -48,7 +48,7 @@ const game = (function(){
         if(allEqual(diagonals[1])){
             return diagonals[1][0]}
 
-        //Check if any row has null value, if not it's a draw
+        //Check if there is space left, if not it's a draw
         for(let row = 0; row <3; row++){
             if (gameBoard[row].indexOf(null) != -1){
                 return 'Make Next Move'}
@@ -60,3 +60,41 @@ const game = (function(){
         makeMove,
     }
 })();
+
+const handleDom = (function(){
+    const playerForm = document.querySelectorAll('.player form')
+    const gameBoard = document.querySelector('.tictactoe')
+    
+    const handleTiles = (function(){
+        const tiles = gameBoard.querySelectorAll('div') 
+        let rowCownter = 0
+        let columnCounter = 0
+        tiles.forEach(div => {
+            div.id = `${rowCownter}${columnCounter}`;
+            
+            div.addEventListener('click', (e)=> {
+                game.makeMove(div.id[0], div.id[1])
+            })
+
+            if (columnCounter ===2) {(rowCownter === 2) ? rowCownter = 0 : rowCownter++}
+            (columnCounter === 2) ? columnCounter = 0 : columnCounter++
+        })
+
+
+    })()
+
+    function createPlayerStatus(name, player){
+        stat = player.querySelector('.status')
+        stat.className = 'status'
+        stat.innerHTML = 'Player '+name
+    }
+    
+    playerForm.forEach(form => form.addEventListener('submit', (e) => {
+        e.preventDefault()
+        form.className = 'hide'
+        createPlayerStatus(form.elements['name'].value, form.parentNode )
+    }))
+
+
+
+})()

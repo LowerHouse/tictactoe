@@ -8,9 +8,49 @@
 </head>
 <body>
     <div class="container">
-        <div class="player"></div>
-        <div class="tictactoe"></div>
-        <div class="player"></div>
+
+        <div class="player" id="playerX">
+            <h2>Player X</h2>
+
+            <div class="status hide">
+                <p></p>
+            </div>
+
+            <form>
+                <label for="name">Your name:</label>
+                <input type="text" id="name" name="name" required>
+                <button type="submit">Submit</button>
+            </form>
+
+        </div>
+
+        <div class="tictactoe">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+        <div class="player" id="playerO">
+            <h2>Player O</h2>
+
+            <div class="status hide">
+                <p></p>
+            </div>
+
+            <form>
+                <label for="name">Your name:</label>
+                <input type="text" id="name" name="name" required>
+                <button type="submit">Submit</button>
+            </form>
+
+        </div>
+
     </div>
     <script src="app.js"></script>
 </body>
