@@ -13,6 +13,7 @@ const game = (function(){
             
             symbol = changeSymbol(symbol)
             console.log(gameBoard, gameOverCheck())
+            return changeSymbol(symbol)
         }
 
     }
@@ -65,7 +66,7 @@ const handleDom = (function(){
     const playerForm = document.querySelectorAll('.player form')
     const gameBoard = document.querySelector('.tictactoe')
     
-    const handleTiles = (function(){
+    const handleTilesClick = (function(){
         const tiles = gameBoard.querySelectorAll('div') 
         let rowCownter = 0
         let columnCounter = 0
@@ -73,15 +74,17 @@ const handleDom = (function(){
             div.id = `${rowCownter}${columnCounter}`;
             
             div.addEventListener('click', (e)=> {
-                game.makeMove(div.id[0], div.id[1])
+                placeSymbol(game.makeMove(div.id[0], div.id[1]), div)
             })
 
             if (columnCounter ===2) {(rowCownter === 2) ? rowCownter = 0 : rowCownter++}
             (columnCounter === 2) ? columnCounter = 0 : columnCounter++
         })
-
-
     })()
+
+    function placeSymbol(symbol, div){
+        if(symbol){div.innerHTML = symbol}
+    }
 
     function createPlayerStatus(name, player){
         stat = player.querySelector('.status')
