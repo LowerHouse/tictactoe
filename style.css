@@ -67,12 +67,6 @@ button{
     font-size: 24px;
 }
 
-.hide{
-    z-index: -10;
-    position: absolute;
-    top: -10000px;
-}
-
 .tictactoe{
     display: grid;
     justify-items: center;
@@ -125,4 +119,10 @@ button{
     -o-filter: blur(2px);
     -ms-filter: blur(2px);
     filter: blur(2px);
+}
+
+.hide{
+    z-index: -10;
+    position: absolute;
+    top: -10000px;
 }

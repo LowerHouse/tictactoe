@@ -1,21 +1,32 @@
 const game = (function(){
-    
-    const gameBoard = [ [null, null, null],
-                        [null, null, null],
-                        [null, null, null]]
-    
-    let symbol = 'X'
-    const changeSymbol = (sym) => (sym === 'X') ? 'O' : 'X'
 
-    const makeMove = (row, column) => {
-        if(!gameBoard[row][column]){
-            gameBoard[row][column] = symbol
-            
-            symbol = changeSymbol(symbol)
-            return changeSymbol(symbol)
+        const boardStructure = () =>  {
+        return [[null, null, null],
+                [null, null, null],
+                [null, null, null]]}
+
+        let gameBoard = boardStructure()
+        let symbol = 'X'
+        
+        function resetGame(){
+            gameBoard = boardStructure()
+            symbol = 'X'
         }
 
+        const makeMove = (row, column) => {
+            
+            if(!gameBoard[row][column]){
+                gameBoard[row][column] = symbol
+                symbol = changeSymbol(symbol)
+                console.log(boardStructure);
+                return changeSymbol(symbol)
+            }
+
     }
+
+    
+    
+    const changeSymbol = (sym) => (sym === 'X') ? 'O' : 'X'
 
     function gameOverCheck (){
 
@@ -23,7 +34,10 @@ const game = (function(){
 
         // for loop to check if any row has 3 in line
         for(let row = 0; row <3; row++){
-            if (allEqual(gameBoard[row])){return gameBoard[row][0]}
+            
+            if (allEqual(gameBoard[row])){
+
+                return gameBoard[row][0]}
         };
 
         //check if any column has 3 in line
@@ -33,6 +47,7 @@ const game = (function(){
                 columnArr.push(gameBoard[row][column])
             };            
             if (allEqual(columnArr)){
+                
                 return columnArr[0]};
             }
 
@@ -43,9 +58,11 @@ const game = (function(){
             diagonals[1].push(gameBoard[(i - 2) * -1][i])};
         
         if(allEqual(diagonals[0])){
+            
             return diagonals[0][0]}
         
         if(allEqual(diagonals[1])){
+            
             return diagonals[1][0]}
 
         //Check if there is space left, if not it's a draw
@@ -53,18 +70,22 @@ const game = (function(){
             if (gameBoard[row].indexOf(null) != -1){
                 return false}
         };
+        
         return 'Draw'
     }
 
     return {
-        makeMove,
         gameOverCheck,
+        makeMove,
+        resetGame
     }
 })();
 
 const handleDom = (function(){
+    const notification = document.querySelector('.notification')
     const playerForm = document.querySelectorAll('.player form')
     const gameBoard = document.querySelector('.tictactoe')
+    const tiles = gameBoard.querySelectorAll('div') 
     
     function createPlayerStatus(name, player){
         stat = player.querySelector('.status')
@@ -72,14 +93,18 @@ const handleDom = (function(){
         stat.innerHTML = 'Player '+name
     }
 
-    function notification(){
-        if(game.gameOverCheck()){
-            
-        }
+    function notificationPopUp(){
+        notification.className = 'notification'
+    }
+
+    function resetTiles(){
+        tiles.forEach(div => {
+            div.innerHTML = ''
+        })
     }
 
     const handleTilesClick = (function(){
-        const tiles = gameBoard.querySelectorAll('div') 
+        
         let rowCownter = 0
         let columnCounter = 0
 
@@ -93,6 +118,11 @@ const handleDom = (function(){
             
             div.addEventListener('click', (e)=> {
                 placeSymbol(game.makeMove(div.id[0], div.id[1]), div)
+                if (game.gameOverCheck()){
+                    notificationPopUp()
+                    game.resetGame()
+                    resetTiles()
+                }
             })
 
             if (columnCounter ===2) {(rowCownter === 2) ? rowCownter = 0 : rowCownter++}
