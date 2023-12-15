@@ -92,3 +92,37 @@ button{
     align-items: center;
     font-size: 100px;
 }
+
+.notification{
+    position: absolute;
+    top: calc(50% - 250px);
+    left: calc(50% - 250px);
+    background-color: var(--button-bg-color);
+    height: 500px;
+    width: 500px;
+    z-index: 5;
+    border-radius: 1em;
+}
+
+.notification button{
+    background-color: var(--container-bg-color);
+    height: 50px;
+    width: 150px;
+    cursor: pointer;
+}
+
+.notification .btn-container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    top: calc(100% - 70px);
+    gap: 15px;
+}
+
+.blur-filter {
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+    filter: blur(2px);
+}

@@ -12,13 +12,12 @@ const game = (function(){
             gameBoard[row][column] = symbol
             
             symbol = changeSymbol(symbol)
-            console.log(gameBoard, gameOverCheck())
             return changeSymbol(symbol)
         }
 
     }
 
-    const gameOverCheck = () => {
+    function gameOverCheck (){
 
         const allEqual = arr => arr.every(v => v === arr[0] & v!==null)
 
@@ -52,13 +51,14 @@ const game = (function(){
         //Check if there is space left, if not it's a draw
         for(let row = 0; row <3; row++){
             if (gameBoard[row].indexOf(null) != -1){
-                return 'Make Next Move'}
+                return false}
         };
         return 'Draw'
     }
 
     return {
         makeMove,
+        gameOverCheck,
     }
 })();
 
@@ -66,11 +66,29 @@ const handleDom = (function(){
     const playerForm = document.querySelectorAll('.player form')
     const gameBoard = document.querySelector('.tictactoe')
     
+    function createPlayerStatus(name, player){
+        stat = player.querySelector('.status')
+        stat.className = 'status'
+        stat.innerHTML = 'Player '+name
+    }
+
+    function notification(){
+        if(game.gameOverCheck()){
+            
+        }
+    }
+
     const handleTilesClick = (function(){
         const tiles = gameBoard.querySelectorAll('div') 
         let rowCownter = 0
         let columnCounter = 0
+
+        function placeSymbol(symbol, div){
+            if(symbol){div.innerHTML = symbol}
+        }    
+
         tiles.forEach(div => {
+            // Column and row of each tile will be stored in id to display symbols on them
             div.id = `${rowCownter}${columnCounter}`;
             
             div.addEventListener('click', (e)=> {
@@ -82,16 +100,6 @@ const handleDom = (function(){
         })
     })()
 
-    function placeSymbol(symbol, div){
-        if(symbol){div.innerHTML = symbol}
-    }
-
-    function createPlayerStatus(name, player){
-        stat = player.querySelector('.status')
-        stat.className = 'status'
-        stat.innerHTML = 'Player '+name
-    }
-    
     playerForm.forEach(form => form.addEventListener('submit', (e) => {
         e.preventDefault()
         form.className = 'hide'
