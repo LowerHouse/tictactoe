@@ -89,16 +89,30 @@ button{
 
 .notification{
     position: absolute;
+    display: flex;
+    flex-direction: column;
     top: calc(50% - 250px);
     left: calc(50% - 250px);
     background-color: var(--button-bg-color);
     height: 500px;
     width: 500px;
     z-index: 5;
+    padding: 15px;
     border-radius: 1em;
 }
 
+.result{
+    font-size: 32px;
+    font-weight: 800;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
 .notification button{
+
     background-color: var(--container-bg-color);
     height: 50px;
     width: 150px;
@@ -106,10 +120,12 @@ button{
 }
 
 .notification .btn-container{
-    position: relative;
+    /* position: relative; */
     display: flex;
+
     justify-content: center;
-    top: calc(100% - 70px);
+    align-items: end;
+    /* top: calc(100% - 70px); */
     gap: 15px;
 }
 

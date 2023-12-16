@@ -18,7 +18,6 @@ const game = (function(){
             if(!gameBoard[row][column]){
                 gameBoard[row][column] = symbol
                 symbol = changeSymbol(symbol)
-                console.log(boardStructure);
                 return changeSymbol(symbol)
             }
 
@@ -74,7 +73,18 @@ const game = (function(){
         return 'Draw'
     }
 
+    function createPlayer(name, symbol){
+        return{
+            playerName: name,
+            playerSymbol: symbol,
+            win: 0,
+            loose: 0,
+            addWin: ()=>{this.win++},
+            addLoose: () =>{loose++}}
+    }
+
     return {
+        createPlayer,
         gameOverCheck,
         makeMove,
         resetGame
@@ -83,10 +93,15 @@ const game = (function(){
 
 const handleDom = (function(){
     const notification = document.querySelector('.notification')
-    const playerForm = document.querySelectorAll('.player form')
+    const playerForm = document.querySelectorAll('form')
+    const container = document.querySelector('.container')
     const gameBoard = document.querySelector('.tictactoe')
     const tiles = gameBoard.querySelectorAll('div') 
-    
+    const playAgainBtn = document.querySelector('#playAgain')
+    const restartBtn = document.querySelector('#restart')
+    let playerX
+    let playerO
+
     function createPlayerStatus(name, player){
         stat = player.querySelector('.status')
         stat.className = 'status'
@@ -95,6 +110,7 @@ const handleDom = (function(){
 
     function notificationPopUp(){
         notification.className = 'notification'
+        container.className = 'container blur-filter'
     }
 
     function resetTiles(){
@@ -117,8 +133,19 @@ const handleDom = (function(){
             div.id = `${rowCownter}${columnCounter}`;
             
             div.addEventListener('click', (e)=> {
+                const resultStat = notification.querySelector('.result')
+                let notificationText
                 placeSymbol(game.makeMove(div.id[0], div.id[1]), div)
                 if (game.gameOverCheck()){
+                    if (game.gameOverCheck() ==='X'){
+                        playerX.win++
+                        notificationText = `${playerX.playerName} Won ${playerX.win} times`
+                    }
+                    if (game.gameOverCheck() ==='O'){
+                        playerO.win++
+                        notificationText = `${playerO.playerName} Won ${playerO.win} times`
+                    }
+                    resultStat.innerHTML = notificationText
                     notificationPopUp()
                     game.resetGame()
                     resetTiles()
@@ -130,10 +157,35 @@ const handleDom = (function(){
         })
     })()
 
+    playAgainBtn.addEventListener('click', (e) =>{
+        notification.className = 'notification hide'
+        container.className = 'container'
+    })
+
+    restartBtn.addEventListener('click', (e) => {
+        stat = document.querySelectorAll('.status')
+        stat.forEach(stat => stat.className = 'status hide')
+        playerForm.forEach(form => form.className = '')
+        playerX = ''
+        playerO = ''
+        container.className = 'container'
+        notification.className= 'notification hide'
+        gameBoard.className = 'tictactoe hide'
+    })
+
     playerForm.forEach(form => form.addEventListener('submit', (e) => {
         e.preventDefault()
         form.className = 'hide'
         createPlayerStatus(form.elements['name'].value, form.parentNode )
+        if(form.parentNode.id === 'playerX'){
+            playerX = game.createPlayer(form.elements['name'].value, 'X')
+            if(playerO){gameBoard.className = 'tictactoe'}
+        }
+        if(form.parentNode.id === 'playerO'){
+            playerO = game.createPlayer(form.elements['name'].value, 'O')
+            if(playerX){gameBoard.className = 'tictactoe'}
+        }
+        
     }))
 
 
